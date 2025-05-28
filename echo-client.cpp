@@ -13,7 +13,7 @@ void myerror(const char* msg) {
 }
 
 void usage() {
-    printf("syntax: echo-client <ip> <port>\n");
+    printf("syntax : echo-client <ip> <port>\n");
     printf("sample : echo-client 192.168.10.2 1234\n");
 }
 
