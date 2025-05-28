@@ -13,6 +13,10 @@ void myerror(const char* msg) {
     fprintf(stderr, "%s %s\n", msg, strerror(errno));
 }
 
+void usage() {
+    printf("syntax : echo-server <port> [-e[-b]]\n");
+    printf("sample : echo-server 1234 -e -b\n");
+}
 struct Param {
     bool echo{false};
     bool broadcast{false};
