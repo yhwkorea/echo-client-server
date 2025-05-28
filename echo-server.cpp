@@ -13,10 +13,6 @@ void myerror(const char* msg) {
     fprintf(stderr, "%s %s\n", msg, strerror(errno));
 }
 
-void usage() {
-    printf("syntax : echo-server <port> [-e[-b]]\n");
-    printf("sample : echo-server 1234 -e -b\n");
-}
 struct Param {
     bool echo{false};
     bool broadcast{false};
@@ -63,13 +59,9 @@ void recvThread(int sd) {
         fflush(stdout);
 
         if (param.echo) {
-            if (param.broadcast) {
-                std::lock_guard<std::mutex> lock(mtx);
-                for (int c : clients) {
-                    if (c != sd) send(c, buf, res, 0);
-                }
-            } else {
-                send(sd, buf, res, 0);
+            std::lock_guard<std::mutex> lock(mtx);
+            for (int c : clients) {
+                send(c, buf, res, 0); // 자신 포함 모든 클라이언트에게 전송
             }
         }
     }
@@ -84,7 +76,7 @@ void recvThread(int sd) {
 
 int main(int argc, char* argv[]) {
     if (!param.parse(argc, argv)) {
-        usage();
+        printf("syntax: echo-server <port> [-e [-b]]\n");
         return -1;
     }
 
