@@ -84,7 +84,7 @@ void recvThread(int sd) {
 
 int main(int argc, char* argv[]) {
     if (!param.parse(argc, argv)) {
-        printf("syntax: echo-server <port> [-e [-b]]\n");
+        usage();
         return -1;
     }
 
