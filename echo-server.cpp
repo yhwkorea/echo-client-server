@@ -60,8 +60,12 @@ void recvThread(int sd) {
 
         if (param.echo) {
             std::lock_guard<std::mutex> lock(mtx);
-            for (int c : clients) {
-                send(c, buf, res, 0); // 자신 포함 모든 클라이언트에게 전송
+            if (param.broadcast) {
+                for (int c : clients) {
+                    send(c, buf, res, 0); // 모든 클라이언트에게 전송
+                }
+            } else {
+                send(sd, buf, res, 0); // 자신에게만 전송
             }
         }
     }
